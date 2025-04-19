@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  backend:
+    image: rust:1.72
+    container_name: fastscraper-backend
+    working_dir: /usr/src/app
+    volumes:
+      - ./backend:/usr/src/app:cached
+      - cargo-cache:/usr/local/cargo/registry
+    env_file:
+      - .env
+    ports:
+      - "3030:3030"
+    command: >
+      bash -lc "
+        cargo install cargo-watch --locked &&
+        cargo watch -x run
+      "
+    # Expose 3030 inside the container so Compose can publish it
+    expose:
+      - "3030"
+
+  frontend:
+    image: node:18
+    container_name: fastscraper-frontend
+    working_dir: /usr/src/app
+    volumes:
+      - ./frontend:/usr/src/app:cached
+      - /usr/src/app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -lc "
+      npm install &&
+      npm run dev
