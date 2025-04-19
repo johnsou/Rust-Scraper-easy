@@ -1,0 +1,16 @@
+# Rust build artefacts
+/backend/target/
+/backend/Cargo.lock
+
+# Node modules & Vite cache
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+
+# Environment files
+.env
+*.env
+
+# Editor / OS files
+.DS_Store
+*.log
